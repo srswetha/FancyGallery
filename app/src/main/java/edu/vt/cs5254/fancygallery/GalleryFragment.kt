@@ -1,5 +1,6 @@
 package edu.vt.cs5254.fancygallery
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import edu.vt.cs5254.fancygallery.databinding.FragmentGalleryBinding
 import kotlinx.coroutines.launch
 
@@ -40,7 +42,14 @@ class GalleryFragment: Fragment() {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 vm.galleryItems.collect { items ->
                     Log.d(TAG, "Response received: ${items.size} items")
-                    binding.photoGrid.adapter = GalleryListAdapter(items)
+                    binding.photoGrid.adapter = GalleryListAdapter(items){ photopageUri ->
+
+                        findNavController()
+                            .navigate(GalleryFragmentDirections.showPhoto(photopageUri))
+
+
+
+                    }
 
                 }
             }
