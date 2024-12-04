@@ -9,4 +9,5 @@
         android:id="@+id/map_fragment"
         android:icon="@drawable/ic_map"
         android:title="@string/map" />
+
 </menu>

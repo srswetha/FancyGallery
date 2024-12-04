@@ -4,14 +4,20 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import coil.ImageLoader
+import coil.imageLoader
 import edu.vt.cs5254.fancygallery.databinding.FragmentGalleryBinding
 import kotlinx.coroutines.launch
 
@@ -38,6 +44,25 @@ class GalleryFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        requireActivity().addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.menu_gallery, menu)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return when (menuItem.itemId) {
+                    R.id.reload_menu -> {
+                        val imageLoader = context?.imageLoader
+                        imageLoader?.memoryCache?.clear()
+
+                        vm.reloadGalleryItems()
+                        true
+                    }
+                    else -> false
+                }
+            }
+        }, viewLifecycleOwner)
+
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 vm.galleryItems.collect { items ->
@@ -54,7 +79,10 @@ class GalleryFragment: Fragment() {
                 }
             }
         }
+
     }
+
+
 
 
     override fun onDestroyView() {
