@@ -14,11 +14,11 @@ class MainActivity : AppCompatActivity() {
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-            //standard for bottom nav
+
         val navHost = supportFragmentManager.findFragmentById(R.id.fragment_container) as NavHost
         binding.bottomNav.setupWithNavController(navHost.navController)
 
-            // required for nav other than bottom nav
+
         binding.bottomNav.setOnItemSelectedListener { item ->
             NavigationUI.onNavDestinationSelected(item, navHost.navController)
             true

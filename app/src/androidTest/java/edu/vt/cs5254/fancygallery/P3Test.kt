@@ -71,239 +71,239 @@ class P3Test {
         onView(withId(R.id.map_view)).check(doesNotExist())
     }
 
-//    @Test
-//    fun galleryFirstPlaceholder() {
-//        waitFor(withId(R.id.photo_grid), atPosition(0, matchesDrawable(R.drawable.ic_placeholder)))
-//    }
-//
-//    @Test
-//    fun galleryFirstImageLoaded() {
-//        waitFor(
-//            withId(R.id.photo_grid), atPosition(0, not(matchesDrawable(R.drawable.ic_placeholder)))
-//        )
-//    }
-//
-//    @Test
-//    fun galleryCountNinetyNine() {
-//        galleryFirstPlaceholder()
-//        onView(withId(R.id.photo_grid)).check(matches(recyclerChildCount()))
-//    }
-//
-//    @Test
-//    fun galleryFirstThreeUrlsUnique() {
-//        galleryFirstImageLoaded()
-//
-//        val url0 = getGalleryItem(0, withId(R.id.photo_grid))?.url
-//        val url1 = getGalleryItem(1, withId(R.id.photo_grid))?.url
-//        val url2 = getGalleryItem(2, withId(R.id.photo_grid))?.url
-//
-//        assertNotEquals("", url0)
-//        assertNotEquals("", url1)
-//        assertNotEquals("", url2)
-//
-//        assertNotEquals(url0, url1)
-//        assertNotEquals(url0, url2)
-//        assertNotEquals(url1, url2)
-//    }
-//
-//    @Test
-//    fun galleryReloadShowsPlaceholder() {
-//        galleryFirstImageLoaded()
-//
-//        onView(withId(R.id.reload_menu)).perform(click())
-//
-//        waitForQuickly(
-//            withId(R.id.photo_grid),
-//            atPosition(0, matchesDrawable(R.drawable.ic_placeholder))
-//        )
-//    }
-//
-//    @Test
-//    fun webFromGalleryFourHasProgressBarSubtitle() {
-//        galleryFirstImageLoaded()
-//
-//        val galleryItem4 = getGalleryItem(4, withId(R.id.photo_grid))
-//
-//        onView(withId(R.id.photo_grid)).perform(
-//            actionOnItemAtPosition<GalleryItemHolder>(
-//                4, click()
-//            )
-//        )
-//
-//        onView(withId(R.id.web_view)).check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
-//
-//        onView(withId(R.id.progress_bar)).check(
-//            matches(
-//                anyOf(
-//                    withEffectiveVisibility(Visibility.VISIBLE),
-//                    withEffectiveVisibility(Visibility.GONE)
-//                )
-//            )
-//        )
-//
-//        val expectedSubtitle = getExpectedSubtitleStart(galleryItem4!!.title)
-//
-//        waitFor(
-//            isRoot(), hasDescendant(
-//                allOf(
-//                    withText(startsWith(expectedSubtitle)),
-//                    withParent(isDescendantOfA(instanceOf(ActionBarContainer::class.java)))
-//                )
-//            )
-//        )
-//    }
-//
-//    @Test
-//    fun galleryAfterWebNoSubtitleCachedImage() {
-//        webFromGalleryFourHasProgressBarSubtitle()
-//
-//        waitFor(withId(R.id.web_view), webViewLoaded(), maxRepeat = 3 * DEFAULT_WAIT_SECONDS)
-//
-//        Espresso.pressBack()
-//
-//        onView(withId(R.id.photo_grid)).check(
-//            matches(
-//                atPosition(
-//                    4, not(matchesDrawable(R.drawable.ic_placeholder))
-//                )
-//            )
-//        )
-//
-//        val galleryItem4 = getGalleryItem(4, withId(R.id.photo_grid))
-//        val expectedSubtitle = getExpectedSubtitleStart(galleryItem4!!.title)
-//
-//        onView(isRoot()).check(
-//            matches(
-//                not(
-//                    hasDescendant(
-//                        allOf(
-//                            withText(startsWith(expectedSubtitle)),
-//                            withParent(isDescendantOfA(instanceOf(ActionBarContainer::class.java)))
-//                        )
-//                    )
-//                )
-//            )
-//        )
-//    }
-//
-//    @Test
-//    fun webToMapAndBack() {
-//        webFromGalleryFourHasProgressBarSubtitle()
-//
-//        waitFor(withId(R.id.web_view), webViewLoaded(), maxRepeat = 3 * DEFAULT_WAIT_SECONDS)
-//
-//        onView(withId(R.id.map_fragment)).perform(click())
-//
-//        waitFor(withId(R.id.map_view), withEffectiveVisibility(Visibility.VISIBLE))
-//        onView(withId(R.id.photo_grid)).check(doesNotExist())
-//        onView(withId(R.id.web_view)).check(doesNotExist())
-//
-//        waitFor(withId(R.id.map_view), loadingIsComplete())
-//        onView(withId(R.id.gallery_fragment)).perform(click())
-//
-//        waitFor(withId(R.id.web_view), withEffectiveVisibility(Visibility.VISIBLE))
-//        onView(withId(R.id.map_view)).check(doesNotExist())
-//        onView(withId(R.id.photo_grid)).check(doesNotExist())
-//    }
-//
-//    @Test
-//    fun mapInitiallyZoomedOut() {
-//        onView(withId(R.id.map_fragment)).perform(click())
-//        onView(withId(R.id.map_view)).check(matches(isDisplayed()))
-//            .check(matches(isFullyZoomedOut()))
-//    }
-//
-//    @Test
-//    fun mapLoadsAllTiles() {
-//        onView(withId(R.id.map_fragment)).perform(click())
-//        waitFor(withId(R.id.map_view), loadingIsComplete())
-//    }
-//
-//    @Test
-//    fun mapLoadsMinimumMarkers() {
-//        galleryFirstImageLoaded()
-//        mapLoadsAllTiles()
-//        waitFor(withId(R.id.map_view), loadedMarkerCountMinimum())
-//    }
-//
-//    @Test
-//    fun mapClickMarkerShowsInfoAndRaises() {
-//        mapLoadsMinimumMarkers()
-//
-//        var markers: List<Marker>
-//        var counter = 10 * MARKER_WAIT_SECONDS
-//        var lastSize = 0
-//        do {
-//            markers = getMapMarkers(withId(R.id.map_view))
-//            val newSize = markers.size
-//            if (newSize != lastSize) {
-//                lastSize = newSize
-//                counter = 10 * MARKER_WAIT_SECONDS
-//            }
-//            sleep(100)
-//        } while (counter-- > 0)
-//
-//        val marker = markers.dropLast(1).last()
-//        assertFalse(marker.isInfoWindowShown)
-//
-//        val pos = marker.position
-//        onView(withId(R.id.map_view)).perform(zoomTo(14.0)).perform(panTo(pos)).perform(click())
-//
-//        for (n in 0 until 50) {
-//            if (marker.isInfoWindowShown) break
-//            sleep(100)
-//        }
-//        assertTrue(marker.isInfoWindowShown)
-//
-//        val newMarkers = getMapMarkers(withId(R.id.map_view))
-//        assertEquals(
-//            "A new marker appeared; consider increasing MARKER_WAIT_SECONDS",
-//            lastSize,
-//            newMarkers.size
-//        )
-//        assertEquals(marker, newMarkers.last())
-//    }
-//
-//    @Test
-//    fun mapClickMarkerWithInfoLoadsWeb() {
-//        mapClickMarkerShowsInfoAndRaises()
-//        onView(withId(R.id.map_view)).perform(click())
-//        waitFor(isRoot(), hasDescendant(withId(R.id.web_view)), 3 * DEFAULT_WAIT_SECONDS)
-//    }
-//
-//    @Test
-//    fun mapConfirmMaxZoom() {
-//        mapLoadsAllTiles()
-//        onView(withId(R.id.map_view)).perform(zoomTo(15.0))
-//        onView(withId(R.id.map_view)).check(matches(isDisplayed()))
-//            .check(matches(isFullyZoomedIn()))
-//    }
-//
-//    @Test
-//    fun mapRetainsState() {
-//        mapLoadsMinimumMarkers()
-//
-//        val firstMarker = getMapMarkers(withId(R.id.map_view)).first()
-//
-//        onView(withId(R.id.map_view)).perform(zoomTo(14.0)).perform(panTo(firstMarker.position))
-//
-//        waitFor(withId(R.id.map_view), loadingIsComplete())
-//
-//        onView(withId(R.id.gallery_fragment)).perform(click())
-//
-//        onView(withId(R.id.map_view)).check(doesNotExist())
-//
-//        onView(withId(R.id.map_fragment)).perform(click())
-//
-//        waitFor(withId(R.id.map_view), loadingIsComplete())
-//
-//        val zoom = getZoomLevel(withId(R.id.map_view))
-//        val center = getCenter(withId(R.id.map_view))
-//
-//        assertEquals(14.0, zoom, 0.1)
-//        assertEquals(firstMarker.position.latitude, center.latitude, 0.001)
-//        assertEquals(firstMarker.position.longitude, center.longitude, 0.001)
-//    }
+    @Test
+    fun galleryFirstPlaceholder() {
+        waitFor(withId(R.id.photo_grid), atPosition(0, matchesDrawable(R.drawable.ic_placeholder)))
+    }
+
+    @Test
+    fun galleryFirstImageLoaded() {
+        waitFor(
+            withId(R.id.photo_grid), atPosition(0, not(matchesDrawable(R.drawable.ic_placeholder)))
+        )
+    }
+
+    @Test
+    fun galleryCountNinetyNine() {
+        galleryFirstPlaceholder()
+        onView(withId(R.id.photo_grid)).check(matches(recyclerChildCount()))
+    }
+
+    @Test
+    fun galleryFirstThreeUrlsUnique() {
+        galleryFirstImageLoaded()
+
+        val url0 = getGalleryItem(0, withId(R.id.photo_grid))?.url
+        val url1 = getGalleryItem(1, withId(R.id.photo_grid))?.url
+        val url2 = getGalleryItem(2, withId(R.id.photo_grid))?.url
+
+        assertNotEquals("", url0)
+        assertNotEquals("", url1)
+        assertNotEquals("", url2)
+
+        assertNotEquals(url0, url1)
+        assertNotEquals(url0, url2)
+        assertNotEquals(url1, url2)
+    }
+
+    @Test
+    fun galleryReloadShowsPlaceholder() {
+        galleryFirstImageLoaded()
+
+        onView(withId(R.id.reload_menu)).perform(click())
+
+        waitForQuickly(
+            withId(R.id.photo_grid),
+            atPosition(0, matchesDrawable(R.drawable.ic_placeholder))
+        )
+    }
+
+    @Test
+    fun webFromGalleryFourHasProgressBarSubtitle() {
+        galleryFirstImageLoaded()
+
+        val galleryItem4 = getGalleryItem(4, withId(R.id.photo_grid))
+
+        onView(withId(R.id.photo_grid)).perform(
+            actionOnItemAtPosition<GalleryItemHolder>(
+                4, click()
+            )
+        )
+
+        onView(withId(R.id.web_view)).check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
+
+        onView(withId(R.id.progress_bar)).check(
+            matches(
+                anyOf(
+                    withEffectiveVisibility(Visibility.VISIBLE),
+                    withEffectiveVisibility(Visibility.GONE)
+                )
+            )
+        )
+
+        val expectedSubtitle = getExpectedSubtitleStart(galleryItem4!!.title)
+
+        waitFor(
+            isRoot(), hasDescendant(
+                allOf(
+                    withText(startsWith(expectedSubtitle)),
+                    withParent(isDescendantOfA(instanceOf(ActionBarContainer::class.java)))
+                )
+            )
+        )
+    }
+
+    @Test
+    fun galleryAfterWebNoSubtitleCachedImage() {
+        webFromGalleryFourHasProgressBarSubtitle()
+
+        waitFor(withId(R.id.web_view), webViewLoaded(), maxRepeat = 3 * DEFAULT_WAIT_SECONDS)
+
+        Espresso.pressBack()
+
+        onView(withId(R.id.photo_grid)).check(
+            matches(
+                atPosition(
+                    4, not(matchesDrawable(R.drawable.ic_placeholder))
+                )
+            )
+        )
+
+        val galleryItem4 = getGalleryItem(4, withId(R.id.photo_grid))
+        val expectedSubtitle = getExpectedSubtitleStart(galleryItem4!!.title)
+
+        onView(isRoot()).check(
+            matches(
+                not(
+                    hasDescendant(
+                        allOf(
+                            withText(startsWith(expectedSubtitle)),
+                            withParent(isDescendantOfA(instanceOf(ActionBarContainer::class.java)))
+                        )
+                    )
+                )
+            )
+        )
+    }
+
+    @Test
+    fun webToMapAndBack() {
+        webFromGalleryFourHasProgressBarSubtitle()
+
+        waitFor(withId(R.id.web_view), webViewLoaded(), maxRepeat = 3 * DEFAULT_WAIT_SECONDS)
+
+        onView(withId(R.id.map_fragment)).perform(click())
+
+        waitFor(withId(R.id.map_view), withEffectiveVisibility(Visibility.VISIBLE))
+        onView(withId(R.id.photo_grid)).check(doesNotExist())
+        onView(withId(R.id.web_view)).check(doesNotExist())
+
+        waitFor(withId(R.id.map_view), loadingIsComplete())
+        onView(withId(R.id.gallery_fragment)).perform(click())
+
+        waitFor(withId(R.id.web_view), withEffectiveVisibility(Visibility.VISIBLE))
+        onView(withId(R.id.map_view)).check(doesNotExist())
+        onView(withId(R.id.photo_grid)).check(doesNotExist())
+    }
+
+    @Test
+    fun mapInitiallyZoomedOut() {
+        onView(withId(R.id.map_fragment)).perform(click())
+        onView(withId(R.id.map_view)).check(matches(isDisplayed()))
+            .check(matches(isFullyZoomedOut()))
+    }
+
+    @Test
+    fun mapLoadsAllTiles() {
+        onView(withId(R.id.map_fragment)).perform(click())
+        waitFor(withId(R.id.map_view), loadingIsComplete())
+    }
+
+    @Test
+    fun mapLoadsMinimumMarkers() {
+        galleryFirstImageLoaded()
+        mapLoadsAllTiles()
+        waitFor(withId(R.id.map_view), loadedMarkerCountMinimum())
+    }
+
+    @Test
+    fun mapClickMarkerShowsInfoAndRaises() {
+        mapLoadsMinimumMarkers()
+
+        var markers: List<Marker>
+        var counter = 10 * MARKER_WAIT_SECONDS
+        var lastSize = 0
+        do {
+            markers = getMapMarkers(withId(R.id.map_view))
+            val newSize = markers.size
+            if (newSize != lastSize) {
+                lastSize = newSize
+                counter = 10 * MARKER_WAIT_SECONDS
+            }
+            sleep(100)
+        } while (counter-- > 0)
+
+        val marker = markers.dropLast(1).last()
+        assertFalse(marker.isInfoWindowShown)
+
+        val pos = marker.position
+        onView(withId(R.id.map_view)).perform(zoomTo(14.0)).perform(panTo(pos)).perform(click())
+
+        for (n in 0 until 50) {
+            if (marker.isInfoWindowShown) break
+            sleep(100)
+        }
+        assertTrue(marker.isInfoWindowShown)
+
+        val newMarkers = getMapMarkers(withId(R.id.map_view))
+        assertEquals(
+            "A new marker appeared; consider increasing MARKER_WAIT_SECONDS",
+            lastSize,
+            newMarkers.size
+        )
+        assertEquals(marker, newMarkers.last())
+    }
+
+    @Test
+    fun mapClickMarkerWithInfoLoadsWeb() {
+        mapClickMarkerShowsInfoAndRaises()
+        onView(withId(R.id.map_view)).perform(click())
+        waitFor(isRoot(), hasDescendant(withId(R.id.web_view)), 3 * DEFAULT_WAIT_SECONDS)
+    }
+
+    @Test
+    fun mapConfirmMaxZoom() {
+        mapLoadsAllTiles()
+        onView(withId(R.id.map_view)).perform(zoomTo(15.0))
+        onView(withId(R.id.map_view)).check(matches(isDisplayed()))
+            .check(matches(isFullyZoomedIn()))
+    }
+
+    @Test
+    fun mapRetainsState() {
+        mapLoadsMinimumMarkers()
+
+        val firstMarker = getMapMarkers(withId(R.id.map_view)).first()
+
+        onView(withId(R.id.map_view)).perform(zoomTo(14.0)).perform(panTo(firstMarker.position))
+
+        waitFor(withId(R.id.map_view), loadingIsComplete())
+
+        onView(withId(R.id.gallery_fragment)).perform(click())
+
+        onView(withId(R.id.map_view)).check(doesNotExist())
+
+        onView(withId(R.id.map_fragment)).perform(click())
+
+        waitFor(withId(R.id.map_view), loadingIsComplete())
+
+        val zoom = getZoomLevel(withId(R.id.map_view))
+        val center = getCenter(withId(R.id.map_view))
+
+        assertEquals(14.0, zoom, 0.1)
+        assertEquals(firstMarker.position.latitude, center.latitude, 0.001)
+        assertEquals(firstMarker.position.longitude, center.longitude, 0.001)
+    }
 
     // ------------  END OF TEST FUNCTIONS ABOVE ------------
 

@@ -21,4 +21,3 @@ data class GalleryItem(
         .build()
 
 }
-//https://www.flickr.com/photos/{user-id}/{photo-id}
