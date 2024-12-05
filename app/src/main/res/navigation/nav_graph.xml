@@ -27,4 +27,12 @@
             android:name="photoPageUri"
             app:argType="android.net.Uri" />
     </fragment>
+    <action
+        android:id="@+id/showPhotoFromMarker"
+        app:destination="@id/photo_page_fragment">
+        <argument
+            android:name="photoPageUri"
+            app:argType="android.net.Uri" />
+    </action>
+
 </navigation>

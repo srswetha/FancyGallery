@@ -56,11 +56,11 @@ class PhotoPageFragment: Fragment() {
                         super.onProgressChanged(view, newProgress)
 
                         if (newProgress < 100){
-                            binding.progressBar.progress = newProgress
-                            binding.progressBar.visibility = View.VISIBLE
+                            progressBar.progress = newProgress
+                            progressBar.visibility = View.VISIBLE
                         }
                         else{
-                            binding.progressBar.visibility = View.GONE
+                            progressBar.visibility = View.GONE
                         }
                     }
                 }
